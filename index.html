@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffd6df">
+    <title>Happy Birthday South</title>
+    <link rel="preload" href="assets/background.png" as="image">
+    <link rel="preload" href="assets/cake.png" as="image">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="birthday-page" aria-label="Happy Birthday South">
+      <section class="stage" aria-label="Birthday celebration">
+        <div class="parade" id="parade" aria-hidden="true"></div>
+        <button class="cake-button" id="cakeButton" type="button" aria-label="打开生日信">
+          <img src="assets/cake.png" alt="写着 South 的生日蛋糕" draggable="false">
+        </button>
+      </section>
+    </main>
+
+    <dialog class="letter-dialog" id="letterDialog" aria-label="生日信">
+      <div class="letter-shell">
+        <button class="letter-close" id="letterClose" type="button" aria-label="关闭生日信">×</button>
+        <div class="letter-flap" aria-hidden="true"></div>
+        <article class="letter-paper">
+          <p class="letter-copy" id="letterCopy">糕糕祝South生日快乐，在新的一岁一切顺利！
+和South的聊天给我带来很多放松和帮助，非常感谢您并希望和您一直是很好的朋友捏！</p>
+        </article>
+        <div class="letter-pocket" aria-hidden="true"></div>
+      </div>
+    </dialog>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,377 @@
+:root {
+  --cake-width: clamp(190px, 46vmin, 420px);
+  --dancer-size: clamp(46px, 7.6vmin, 82px);
+  --lane-gap: clamp(125px, 26vmin, 220px);
+  --paper: #fff9ed;
+  --paper-edge: #f0cfa9;
+  --pink: #ff8faa;
+  --shadow: rgba(121, 70, 76, 0.26);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100svh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 38%),
+    #ffdce4 url("assets/background.png") center top / cover no-repeat;
+  color: #6f3d45;
+  font-family: "Trebuchet MS", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.birthday-page {
+  min-height: 100svh;
+  display: grid;
+  place-items: start center;
+  padding: clamp(96px, 17svh, 158px) 0 24px;
+}
+
+.stage {
+  position: relative;
+  width: 100vw;
+  height: clamp(276px, 70vmin, 520px);
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.parade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.dancer {
+  position: absolute;
+  top: var(--lane-y);
+  left: 50%;
+  width: var(--dancer-size);
+  height: var(--dancer-size);
+  transform-origin: center;
+  animation: walk-ltr var(--travel-duration, 20s) linear infinite;
+  animation-delay: var(--travel-delay, 0s);
+  will-change: transform;
+}
+
+.dancer.lane-upper {
+  --lane-y: calc(50% - var(--lane-gap) + var(--lane-jitter, 0px));
+}
+
+.dancer.lane-lower {
+  --lane-y: calc(50% + var(--lane-gap) + var(--lane-jitter, 0px));
+  animation-name: walk-rtl;
+}
+
+.dancer-upright {
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+}
+
+.dancer-hop {
+  width: 100%;
+  height: 100%;
+  animation: hop var(--hop-duration, 1.2s) ease-in-out infinite;
+  animation-delay: var(--hop-delay, 0s);
+  transform-origin: center bottom;
+}
+
+.dancer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: flip var(--flip-duration, 1.08s) steps(1, end) infinite;
+  animation-delay: var(--flip-delay, 0s);
+  filter: drop-shadow(0 8px 8px rgba(106, 62, 65, 0.2));
+  transform-origin: center bottom;
+  user-select: none;
+}
+
+.lane-hopper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: calc(var(--dancer-size) * 1.08);
+  height: calc(var(--dancer-size) * 1.08);
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.hopper-body {
+  width: 100%;
+  height: 100%;
+  transform-origin: center bottom;
+}
+
+.lane-hopper img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 8px rgba(106, 62, 65, 0.2));
+  transform-origin: center bottom;
+  user-select: none;
+}
+
+.cake-button {
+  position: relative;
+  z-index: 2;
+  width: var(--cake-width);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 24px 24px rgba(98, 64, 62, 0.24));
+  animation: cake-glow 2.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cake-button:focus-visible {
+  outline: 4px solid rgba(255, 104, 143, 0.72);
+  outline-offset: 10px;
+  border-radius: 28px;
+}
+
+.cake-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.letter-dialog {
+  width: min(92vw, 620px);
+  max-height: min(88svh, 760px);
+  border: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  color: #70404a;
+}
+
+.letter-dialog::backdrop {
+  background: rgba(85, 42, 52, 0.34);
+  backdrop-filter: blur(5px);
+}
+
+.letter-shell {
+  position: relative;
+  min-height: clamp(360px, 62svh, 560px);
+  padding: clamp(40px, 8vw, 70px) clamp(20px, 5vw, 54px) clamp(34px, 7vw, 60px);
+  filter: drop-shadow(0 26px 42px rgba(91, 46, 55, 0.34));
+  animation: letter-rise 360ms cubic-bezier(.18, .82, .28, 1.08);
+}
+
+.letter-paper {
+  position: relative;
+  z-index: 3;
+  min-height: clamp(270px, 45svh, 430px);
+  padding: clamp(28px, 5.8vw, 46px);
+  border: 2px solid rgba(229, 177, 137, 0.72);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 32%),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(237, 195, 161, 0.18) 31px 32px),
+    var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+}
+
+.letter-copy {
+  max-height: min(48svh, 390px);
+  margin: 0;
+  padding-bottom: clamp(76px, 18vw, 126px);
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: clamp(18px, 4.4vw, 24px);
+  line-height: 1.85;
+  letter-spacing: 0;
+}
+
+.letter-flap,
+.letter-pocket {
+  position: absolute;
+  left: 50%;
+  width: 82%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.letter-flap {
+  top: 0;
+  z-index: 1;
+  height: 42%;
+  background: linear-gradient(145deg, #ffe2ec, #ffc2d0);
+  clip-path: polygon(50% 0, 100% 86%, 0 86%);
+  opacity: 0.95;
+}
+
+.letter-pocket {
+  bottom: 14px;
+  z-index: 4;
+  height: 34%;
+  border-radius: 0 0 18px 18px;
+  background:
+    linear-gradient(135deg, transparent 49.5%, rgba(255, 255, 255, 0.34) 50%, transparent 51%),
+    linear-gradient(225deg, transparent 49.5%, rgba(255, 255, 255, 0.32) 50%, transparent 51%),
+    linear-gradient(180deg, #ffd0dc, #f6a9bb);
+  clip-path: polygon(0 0, 50% 46%, 100% 0, 100% 100%, 0 100%);
+}
+
+.letter-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #d45f7b;
+  cursor: pointer;
+  font-size: 30px;
+  line-height: 1;
+  box-shadow: 0 8px 20px rgba(124, 65, 76, 0.16);
+}
+
+.letter-close:focus-visible {
+  outline: 3px solid rgba(255, 104, 143, 0.72);
+  outline-offset: 3px;
+}
+
+@keyframes walk-ltr {
+  from {
+    transform: translate3d(calc(-50vw - var(--dancer-size) - var(--travel-extra, 0px)), -50%, 0);
+  }
+
+  to {
+    transform: translate3d(calc(50vw + var(--dancer-size) + var(--travel-extra, 0px)), -50%, 0);
+  }
+}
+
+@keyframes walk-rtl {
+  from {
+    transform: translate3d(calc(50vw + var(--dancer-size) + var(--travel-extra, 0px)), -50%, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-50vw - var(--dancer-size) - var(--travel-extra, 0px)), -50%, 0);
+  }
+}
+
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(calc(var(--hop-height, 13%) * -1)) rotate(3deg);
+  }
+}
+
+@keyframes flip {
+  0%,
+  49% {
+    transform: scaleX(1);
+  }
+
+  50%,
+  100% {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes cake-glow {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-5px) scale(1.015);
+  }
+}
+
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --cake-width: 180px;
+    --dancer-size: 42px;
+    --lane-gap: 96px;
+  }
+
+  .birthday-page {
+    padding-top: 132px;
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --lane-gap: clamp(100px, 27vmin, 125px);
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0) 38%),
+      #ffdce4 url("assets/background.png") center top / 100% auto no-repeat;
+  }
+}
+
+@media (max-height: 620px) {
+  :root {
+    --cake-width: 168px;
+    --dancer-size: 40px;
+    --lane-gap: 88px;
+  }
+
+  .birthday-page {
+    padding-top: 94px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parade,
+  .dancer,
+  .lane-hopper,
+  .dancer-hop,
+  .dancer img,
+  .cake-button,
+  .letter-shell {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+  }
+}
